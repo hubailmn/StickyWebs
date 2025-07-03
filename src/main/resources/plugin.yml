@@ -1,0 +1,15 @@
+name: StickyWebs
+version: 1.0-v1.20.4
+main: cc.hubailmn.stickywebs.StickyWebs
+api-version: "1.20"
+authors:
+  - hubailmn
+website: https://discord.hubailmn.cc
+description: "A Sticky Webs for 1.20.4 plugin using NMS and Paperweight"
+commands:
+  stickyWebReload:
+    permission: StickyWeb.reload
+permissions:
+  StickyWeb.reload:
+    description: to reload the config values
+    default: op

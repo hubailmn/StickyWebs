@@ -1,0 +1,15 @@
+StickyWebs:
+
+  cobwebs:
+    disable-firework-use-in-webs: true
+    disable-glide-In-Webs: true
+    disable-fly-throw-Webs: true
+
+  explosives:
+    tnt:
+      enabled: true
+      explosion-power: 3.0
+
+    tnt-minecart:
+      enabled: true
+      explosion-power: 5.0
