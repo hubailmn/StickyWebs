@@ -2,6 +2,7 @@ package cc.hubailmn.stickywebs.lisener;
 
 import cc.hubailmn.stickywebs.StickyWebs;
 import cc.hubailmn.stickywebs.util.CobWebUtil;
+import cc.hubailmn.utility.interaction.player.PlayerUtil;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
@@ -18,23 +19,28 @@ public class MovementListener implements Listener {
 
     Location from = event.getFrom();
     Location to = event.getTo();
-    if (from.getX() == to.getX() && from.getY() == to.getY() && from.getZ() == to.getZ()) {
-      return;
-    }
+    if (from.getX() == to.getX() && from.getY() == to.getY() && from.getZ() == to.getZ()) return;
 
     Player player = event.getPlayer();
     ServerPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
 
     if (!CobWebUtil.isPlayerInCobweb(nmsPlayer)) return;
 
-    if (player.isGliding()) {
-      player.setGliding(false);
-    }
+    boolean isBedrock = PlayerUtil.isBedrock(player);
+    boolean isGliding = player.isGliding();
 
-    if (from.distance(to) > 0.10) {
-      event.setCancelled(true);
-      player.teleport(from);
-      player.sendActionBar("§cYou can't move through cobwebs!");
+    if (isBedrock || isGliding) {
+      if (isGliding) player.setGliding(false);
+
+      if (from.distance(to) > 0.15) {
+
+        Location teleportLocation = from.clone();
+        teleportLocation.setYaw(to.getYaw());
+        teleportLocation.setPitch(to.getPitch());
+
+        player.teleport(teleportLocation);
+        player.sendActionBar("§cYou can't move through cobwebs!");
+      }
     }
   }
 

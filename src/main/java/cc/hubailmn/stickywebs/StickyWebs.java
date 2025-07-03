@@ -13,10 +13,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class StickyWebs extends JavaPlugin implements Listener {
 
   @Getter
-  private Config stickyWebsConfig;
+  private static StickyWebs instance;
 
   @Getter
-  private static StickyWebs instance;
+  private Config stickyWebsConfig;
 
   @Override
   public void onEnable() {

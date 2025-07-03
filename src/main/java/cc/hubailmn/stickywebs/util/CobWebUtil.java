@@ -1,5 +1,7 @@
 package cc.hubailmn.stickywebs.util;
 
+import cc.hubailmn.stickywebs.StickyWebs;
+import cc.hubailmn.stickywebs.config.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
@@ -10,7 +12,13 @@ import net.minecraft.world.phys.AABB;
 public class CobWebUtil {
 
   public static boolean isPlayerInCobweb(ServerPlayer player) {
-    AABB box = player.getBoundingBox().inflate(-0.15, 0.0, -0.15);
+    Config config = StickyWebs.getInstance().getStickyWebsConfig();
+
+    double x = config.getHitboxInflateX();
+    double y = config.getHitboxInflateY();
+    double z = config.getHitboxInflateZ();
+    AABB box = player.getBoundingBox().inflate(x, y, z);
+
     Level level = player.level();
 
     int minX = (int) Math.floor(box.minX);

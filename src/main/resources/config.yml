@@ -1,15 +1,33 @@
 StickyWebs:
+  hitbox-inflate:
+    # Horizontal hitbox shrink (X-axis)
+    X-axis: -0.22
+    # Vertical hitbox shrink (Y-axis)
+    Y-axis: -0.02
+    # Depth hitbox shrink (Z-axis)
+    Z-axis: -0.22
 
   cobwebs:
+    # Prevent players from using firework rockets while inside cobwebs
     disable-firework-use-in-webs: true
+
+    # Prevent players from gliding (elytra) if they are inside cobwebs
     disable-glide-In-Webs: true
-    disable-fly-throw-Webs: true
+
+    # Prevent players from flying through cobwebs
+    disable-fly-through-Webs: true
 
   explosives:
     tnt:
+      # Enable or disable TNT explosion handling by the plugin
       enabled: true
-      explosion-power: 3.0
+
+      # Custom explosion power for TNT (default vanilla is 4.0)
+      explosion-power: 9.0
 
     tnt-minecart:
+      # Enable or disable Minecart TNT explosion handling
       enabled: true
-      explosion-power: 5.0
+
+      # Custom explosion power for Minecart TNT (default vanilla is 4.0)
+      explosion-power: 9.0

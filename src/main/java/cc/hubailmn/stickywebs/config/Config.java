@@ -9,6 +9,10 @@ public class Config {
 
   private final JavaPlugin plugin;
 
+  private double hitboxInflateX;
+  private double hitboxInflateY;
+  private double hitboxInflateZ;
+
   private boolean disableFireworkUse;
   private boolean disableGlideInCobwebs;
   private boolean disableFlyThroughCobwebs;
@@ -28,9 +32,13 @@ public class Config {
     plugin.saveDefaultConfig();
     FileConfiguration config = plugin.getConfig();
 
+    hitboxInflateX = config.getDouble("StickyWebs.hitbox-inflate.X-axis", -0.22);
+    hitboxInflateY = config.getDouble("StickyWebs.hitbox-inflate.Y-axis", -0.2);
+    hitboxInflateZ = config.getDouble("StickyWebs.hitbox-inflate.Z-axis", -0.22);
+
     disableFireworkUse = config.getBoolean("StickyWebs.cobwebs.disable-firework-use-in-webs", true);
     disableGlideInCobwebs = config.getBoolean("StickyWebs.cobwebs.disable-glide-In-Webs", true);
-    disableFlyThroughCobwebs = config.getBoolean("StickyWebs.cobwebs.disable-fly-throw-Webs", true);
+    disableFlyThroughCobwebs = config.getBoolean("StickyWebs.cobwebs.disable-fly-through-Webs", true);
 
     tntEnabled = config.getBoolean("StickyWebs.explosives.tnt.enabled", true);
     tntPower = (float) config.getDouble("StickyWebs.explosives.tnt.explosion-power", 3.0);
