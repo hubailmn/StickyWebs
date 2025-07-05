@@ -32,7 +32,7 @@ public class MovementListener implements Listener {
     if (isBedrock || isGliding) {
       if (isGliding) player.setGliding(false);
 
-      if (from.distance(to) > 0.15) {
+      if (from.distance(to) > 0.12) {
 
         Location teleportLocation = from.clone();
         teleportLocation.setYaw(to.getYaw());
