@@ -18,6 +18,22 @@ StickyWebs:
     disable-fly-through-Webs: true
 
   explosives:
+    tnt-minecart-boost:
+      # Enable or disable TNT minecart boost handling by the plugin
+      enabled: true
+
+      # Speed multiplier to apply when the TNT minecart leaves a powered rail
+      boost-multiplier: 10
+
+      # Only boost if minecart was originally placed on a powered rail
+      must-be-powered: true
+
+      # Blocks that count as rails for boost detection
+      valid-rail-blocks:
+        - POWERED_RAIL
+        - DETECTOR_RAIL
+        - ACTIVATOR_RAIL
+
     tnt:
       # Enable or disable TNT explosion handling by the plugin
       enabled: true

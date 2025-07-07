@@ -32,7 +32,7 @@ dependencies {
   compileOnly("org.projectlombok:lombok:1.18.32")
   annotationProcessor("org.projectlombok:lombok:1.18.32")
 
-//  implementation("com.github.hubailmn:Utility:v1.1.2")
+//  implementation("com.github.hubailmn:Utility:v1.1.5")
   implementation("cc.hubailmn:Utility:LocalBuild") {
     exclude(group = "org.reflections", module = "reflections")
   }

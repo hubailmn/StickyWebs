@@ -19,7 +19,6 @@ public class MovementListener implements Listener {
 
     Location from = event.getFrom();
     Location to = event.getTo();
-    if (from.getX() == to.getX() && from.getY() == to.getY() && from.getZ() == to.getZ()) return;
 
     Player player = event.getPlayer();
     ServerPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
@@ -32,8 +31,7 @@ public class MovementListener implements Listener {
     if (isBedrock || isGliding) {
       if (isGliding) player.setGliding(false);
 
-      if (from.distance(to) > 0.12) {
-
+      if (from.distance(to) > 0.10) {
         Location teleportLocation = from.clone();
         teleportLocation.setYaw(to.getYaw());
         teleportLocation.setPitch(to.getPitch());

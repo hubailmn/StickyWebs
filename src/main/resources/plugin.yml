@@ -9,6 +9,8 @@ description: "A Sticky Webs for 1.20.4 plugin using NMS and Paperweight"
 commands:
   stickyWebReload:
     permission: StickyWeb.reload
+  stickyBugs:
+
 permissions:
   StickyWeb.reload:
     description: to reload the config values

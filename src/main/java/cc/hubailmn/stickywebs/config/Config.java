@@ -1,8 +1,13 @@
 package cc.hubailmn.stickywebs.config;
 
+import cc.hubailmn.stickywebs.StickyWebs;
 import lombok.Data;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class Config {
@@ -16,6 +21,11 @@ public class Config {
   private boolean disableFireworkUse;
   private boolean disableGlideInCobwebs;
   private boolean disableFlyThroughCobwebs;
+
+  private boolean boostEnabled;
+  private double boostMultiplier;
+  private boolean requirePowered;
+  private Set<Material> validBoostRails;
 
   private boolean tntEnabled;
   private float tntPower;
@@ -39,6 +49,19 @@ public class Config {
     disableFireworkUse = config.getBoolean("StickyWebs.cobwebs.disable-firework-use-in-webs", true);
     disableGlideInCobwebs = config.getBoolean("StickyWebs.cobwebs.disable-glide-In-Webs", true);
     disableFlyThroughCobwebs = config.getBoolean("StickyWebs.cobwebs.disable-fly-through-Webs", true);
+
+    boostEnabled = config.getBoolean("StickyWebs.explosives.tnt-minecart-boost.enabled");
+    boostMultiplier = config.getDouble("StickyWebs.explosives.tnt-minecart-boost.boost-multiplier", 10);
+    requirePowered = config.getBoolean("StickyWebs.explosives.tnt-minecart-boost.must-be-powered", true);
+
+    validBoostRails = new HashSet<>();
+    for (String name : config.getStringList("StickyWebs.explosives.tnt-minecart-boost.valid-rail-blocks")) {
+      try {
+        validBoostRails.add(Material.valueOf(name.toUpperCase()));
+      } catch (IllegalArgumentException e) {
+        StickyWebs.getInstance().getLogger().warning("[TntBoost] Invalid rail type in config: " + name);
+      }
+    }
 
     tntEnabled = config.getBoolean("StickyWebs.explosives.tnt.enabled", true);
     tntPower = (float) config.getDouble("StickyWebs.explosives.tnt.explosion-power", 3.0);
