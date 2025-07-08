@@ -1,8 +1,8 @@
 package cc.hubailmn.stickywebs.lisener.cobweb;
 
 import cc.hubailmn.stickywebs.StickyWebs;
-import cc.hubailmn.stickywebs.util.CSend;
 import cc.hubailmn.stickywebs.util.CobWebUtil;
+import cc.hubailmn.utility.interaction.CSend;
 import cc.hubailmn.utility.interaction.player.PlayerUtil;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;

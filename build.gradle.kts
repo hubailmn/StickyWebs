@@ -32,7 +32,9 @@ dependencies {
   compileOnly("org.projectlombok:lombok:1.18.32")
   annotationProcessor("org.projectlombok:lombok:1.18.32")
 
-//  implementation("com.github.hubailmn:Utility:v1.1.5")
+//  implementation("com.github.hubailmn:Utility:v1.1.5") {
+//    exclude(group = "org.reflections", module = "reflections")
+//  }
   implementation("cc.hubailmn:Utility:LocalBuild") {
     exclude(group = "org.reflections", module = "reflections")
   }
@@ -45,7 +47,7 @@ tasks {
 
     minimize {
       exclude(dependency("com.github.hubailmn:Utility:.*"))
-      exclude(dependency("cc.hubailmn:Utility:v1.0.0:.*"))
+      exclude(dependency("cc.hubailmn:Utility:.*"))
     }
 
     archiveClassifier.set("")
