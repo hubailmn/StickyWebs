@@ -6,6 +6,7 @@ import cc.hubailmn.stickywebs.lisener.TntMinecartBoostListener;
 import cc.hubailmn.stickywebs.lisener.cobweb.FireworkListener;
 import cc.hubailmn.stickywebs.lisener.cobweb.GlideListener;
 import cc.hubailmn.stickywebs.lisener.cobweb.MovementListener;
+import cc.hubailmn.utility.BasePlugin;
 import cc.hubailmn.utility.interaction.CSend;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -52,18 +53,14 @@ public class StickyWebs extends JavaPlugin implements Listener {
       });
     }
 
-    getLogger().info(
-      """
-        §7Plugin §aStickyWebs §7enabled successfully!
-        §7Need help or want to join the community?
-        §7Join the Discord: §9https://discord.hubailmn.cc
-        """
-    );
+    CSend.prefixed("§ePlugin §aStickyWebs§e has been §aenabled§e successfully!");
+    CSend.prefixed("§eNeed help or want to join the community?");
+    CSend.prefixed("§eJoin the Discord: §dhttps://discord.hubailmn.cc");
   }
 
   @Override
   public void onDisable() {
-
+    CSend.prefixed("§ePlugin §aStickyWebs§e has been §cdisabled§e successfully!");
   }
 
 }
