@@ -14,6 +14,8 @@ public class Config {
 
   private final JavaPlugin plugin;
 
+  private boolean debug;
+
   private double hitboxInflateX;
   private double hitboxInflateY;
   private double hitboxInflateZ;
@@ -42,6 +44,7 @@ public class Config {
     plugin.saveDefaultConfig();
     FileConfiguration config = plugin.getConfig();
 
+    debug = config.getBoolean("StickyWebs.debug", false);
     hitboxInflateX = config.getDouble("StickyWebs.hitbox-inflate.X-axis", -0.22);
     hitboxInflateY = config.getDouble("StickyWebs.hitbox-inflate.Y-axis", -0.2);
     hitboxInflateZ = config.getDouble("StickyWebs.hitbox-inflate.Z-axis", -0.22);

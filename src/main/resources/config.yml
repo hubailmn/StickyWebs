@@ -1,4 +1,7 @@
 StickyWebs:
+
+  debug: false
+
   hitbox-inflate:
     # Horizontal hitbox shrink (X-axis)
     X-axis: -0.22

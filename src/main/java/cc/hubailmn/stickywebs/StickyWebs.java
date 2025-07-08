@@ -1,7 +1,12 @@
 package cc.hubailmn.stickywebs;
 
 import cc.hubailmn.stickywebs.config.Config;
-import cc.hubailmn.stickywebs.lisener.*;
+import cc.hubailmn.stickywebs.lisener.ExplosionListener;
+import cc.hubailmn.stickywebs.lisener.TntMinecartBoostListener;
+import cc.hubailmn.stickywebs.lisener.cobweb.FireworkListener;
+import cc.hubailmn.stickywebs.lisener.cobweb.GlideListener;
+import cc.hubailmn.stickywebs.lisener.cobweb.MovementListener;
+import cc.hubailmn.stickywebs.util.CSend;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -18,6 +23,8 @@ public class StickyWebs extends JavaPlugin implements Listener {
   @Override
   public void onEnable() {
     instance = this;
+
+    CSend.init(getDataFolder());
 
     getConfig().options().copyDefaults(true);
     saveDefaultConfig();

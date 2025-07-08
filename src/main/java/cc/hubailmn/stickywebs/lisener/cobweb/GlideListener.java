@@ -1,4 +1,4 @@
-package cc.hubailmn.stickywebs.lisener;
+package cc.hubailmn.stickywebs.lisener.cobweb;
 
 import cc.hubailmn.stickywebs.StickyWebs;
 import cc.hubailmn.stickywebs.util.CobWebUtil;
