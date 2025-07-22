@@ -5,7 +5,7 @@ plugins {
   id("xyz.jpenilla.run-paper") version "2.3.1"
 }
 
-version = "1.0-v1.20.4"
+version = "1.0.4-v1.20.4"
 group = "cc.hubailmn"
 description = "Sticky Webs for 1.20.4"
 
@@ -63,7 +63,7 @@ tasks {
   }
 
   reobfJar {
-    outputJar = layout.buildDirectory.file("/Users/hubailmn/Desktop/1/MC/Server-1.20.4/plugins/${project.name}-${project.version}.jar")
+    outputJar = layout.buildDirectory.file("/Users/hubailmn/MinecraftServer/1.20.4/plugins/${project.name}-${project.version}.jar")
   }
 
 }

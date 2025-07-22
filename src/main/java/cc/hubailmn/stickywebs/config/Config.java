@@ -16,6 +16,10 @@ public class Config {
 
     private boolean debug;
 
+    private boolean blockResetEnabled;
+    private long blockResetDelay;
+    private Set<Material> blockResetAllowedBlocks;
+
     private double hitboxInflateX;
     private double hitboxInflateY;
     private double hitboxInflateZ;
@@ -45,6 +49,19 @@ public class Config {
         FileConfiguration config = plugin.getConfig();
 
         debug = config.getBoolean("StickyWebs.debug", false);
+
+        blockResetEnabled = config.getBoolean("StickyWebs.block-reset.enabled", true);
+        blockResetDelay = config.getLong("StickyWebs.block-reset.delay-seconds", 180L) * 20;
+        blockResetAllowedBlocks = new HashSet<>();
+
+        for (String name : config.getStringList("StickyWebs.block-reset.blocks")) {
+            try {
+                blockResetAllowedBlocks.add(Material.valueOf(name.toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                StickyWebs.getInstance().getLogger().warning("[BlockReset] Invalid block type in config: " + name);
+            }
+        }
+
         hitboxInflateX = config.getDouble("StickyWebs.hitbox-inflate.X-axis", -0.22);
         hitboxInflateY = config.getDouble("StickyWebs.hitbox-inflate.Y-axis", -0.2);
         hitboxInflateZ = config.getDouble("StickyWebs.hitbox-inflate.Z-axis", -0.22);

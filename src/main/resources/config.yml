@@ -5,10 +5,12 @@ StickyWebs:
     # Enable automatic block removal
     enabled: true
     # Time (in seconds) after a placed block is removed
-    delay-seconds: 3
+    delay-seconds: 180
     # List of materials affected (leave empty to apply to all)
     blocks:
-      - DIRT
+      - COBWEB
+      - OAK_STAIRS
+      - OAK_BUTTON
 
   hitbox-inflate:
     # Horizontal hitbox shrink (X-axis)

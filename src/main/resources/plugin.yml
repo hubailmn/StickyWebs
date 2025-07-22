@@ -7,9 +7,12 @@ authors:
 website: https://discord.hubailmn.cc
 description: "A Sticky Webs for 1.20.4 plugin using NMS and Paperweight"
 commands:
-  stickyWebReload:
-    permission: StickyWeb.reload
+  stickyWeb:
+    permission: StickyWeb.command
 permissions:
-  StickyWeb.reload:
-    description: to reload the config values
+  StickyWeb.command.reload:
+    description: To reload the config values.
+    default: op
+  StickyWeb.command.bypass:
+    description: To bypass the block placed auto reset.
     default: op
