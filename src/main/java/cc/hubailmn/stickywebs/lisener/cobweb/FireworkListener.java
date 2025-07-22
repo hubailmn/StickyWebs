@@ -15,22 +15,22 @@ import org.bukkit.inventory.ItemStack;
 
 public class FireworkListener implements Listener {
 
-  @EventHandler
-  public void onFireworkUse(PlayerInteractEvent event) {
-    if (!StickyWebs.getInstance().getStickyWebsConfig().isDisableFireworkUse()) return;
+    @EventHandler
+    public void onFireworkUse(PlayerInteractEvent event) {
+        if (!StickyWebs.getInstance().getStickyWebsConfig().isDisableFireworkUse()) return;
 
-    Action action = event.getAction();
-    if (action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK) return;
+        Action action = event.getAction();
+        if (action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK) return;
 
-    Player player = event.getPlayer();
-    ItemStack item = player.getInventory().getItemInMainHand();
-    if (item.getType() != Material.FIREWORK_ROCKET) return;
+        Player player = event.getPlayer();
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if (item.getType() != Material.FIREWORK_ROCKET) return;
 
-    ServerPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
-    if (CobWebUtil.isPlayerInCobweb(nmsPlayer)) {
-      event.setCancelled(true);
-      player.sendActionBar("§cYou can't use fireworks in cobwebs!");
-      SoundUtil.play(player, SoundUtil.SoundType.DENY);
+        ServerPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
+        if (CobWebUtil.isPlayerInCobweb(nmsPlayer)) {
+            event.setCancelled(true);
+            player.sendActionBar("§cYou can't use fireworks in cobwebs!");
+            SoundUtil.play(player, SoundUtil.SoundType.DENY);
+        }
     }
-  }
 }

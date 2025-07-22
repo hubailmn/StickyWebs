@@ -4,7 +4,6 @@ import cc.hubailmn.stickywebs.StickyWebs;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.vehicle.MinecartTNT;
 import net.minecraft.world.phys.Vec3;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -25,80 +24,79 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class TntMinecartBoostListener implements Listener {
 
-  private final Map<UUID, Boolean> canBeBoosted = new ConcurrentHashMap<>();
+    private final Map<UUID, Boolean> canBeBoosted = new ConcurrentHashMap<>();
 
-  @EventHandler
-  public void onPlayerPlaceTntMinecart(PlayerInteractEvent event) {
-    if (event.getHand() != EquipmentSlot.HAND) return;
+    @EventHandler
+    public void onPlayerPlaceTntMinecart(PlayerInteractEvent event) {
+        if (event.getHand() != EquipmentSlot.HAND) return;
 
+        Player player = event.getPlayer();
+        var config = StickyWebs.getInstance().getStickyWebsConfig();
 
-    Player player = event.getPlayer();
-    var config = StickyWebs.getInstance().getStickyWebsConfig();
+        ItemStack item = event.getItem();
+        if (item == null || item.getType() != Material.TNT_MINECART) return;
 
-    ItemStack item = event.getItem();
-    if (item == null || item.getType() != Material.TNT_MINECART) return;
+        Block block = event.getClickedBlock();
+        if (block == null || !config.getValidBoostRails().contains(block.getType())) return;
 
-    Block block = event.getClickedBlock();
-    if (block == null || !config.getValidBoostRails().contains(block.getType())) return;
+        if (config.isRequirePowered() &&
+                (block.getType() != Material.POWERED_RAIL ||
+                        !(block.getBlockData() instanceof org.bukkit.block.data.Powerable p) || !p.isPowered())) {
+            return;
+        }
 
-    if (config.isRequirePowered() &&
-      (block.getType() != Material.POWERED_RAIL ||
-        !(block.getBlockData() instanceof org.bukkit.block.data.Powerable p) || !p.isPowered())) {
-      return;
+        event.setCancelled(true);
+
+        if (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE) {
+            item.setAmount(item.getAmount() - 1);
+        }
+
+        spawnCustomTntMinecart(player, block);
     }
 
-    event.setCancelled(true);
+    private void spawnCustomTntMinecart(Player player, Block baseBlock) {
+        var plugin = StickyWebs.getInstance();
+        var config = plugin.getStickyWebsConfig();
+        ServerLevel level = ((CraftWorld) baseBlock.getWorld()).getHandle();
 
-    if (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE) {
-      item.setAmount(item.getAmount() - 1);
+        double x = baseBlock.getX() + 0.5;
+        double y = baseBlock.getY() + 0.05;
+        double z = baseBlock.getZ() + 0.5;
+
+        MinecartTNT minecart = new MinecartTNT(level, x, y, z);
+
+        minecart.setNoGravity(false);
+
+        minecart.setDerailedVelocityMod(new Vector(config.getBoostMultiplier(), 1, config.getBoostMultiplier()));
+
+        minecart.setDeltaMovement(new Vec3(0, 0, 0));
+        minecart.hurtMarked = true;
+
+        level.addFreshEntity(minecart);
+
+        canBeBoosted.put(minecart.getUUID(), true);
     }
 
-    spawnCustomTntMinecart(player, block);
-  }
+    @EventHandler
+    public void onMinecartPushed(VehicleEntityCollisionEvent event) {
+        Entity vehicle = event.getVehicle();
+        Entity entity = event.getEntity();
 
-  private void spawnCustomTntMinecart(Player player, Block baseBlock) {
-    var plugin = StickyWebs.getInstance();
-    var config = plugin.getStickyWebsConfig();
-    ServerLevel level = ((CraftWorld) baseBlock.getWorld()).getHandle();
+        if (!(vehicle instanceof org.bukkit.entity.minecart.ExplosiveMinecart minecart)) return;
+        if (!(entity instanceof Player player)) return;
 
-    double x = baseBlock.getX() + 0.5;
-    double y = baseBlock.getY() + 0.05;
-    double z = baseBlock.getZ() + 0.5;
+        UUID minecartId = minecart.getUniqueId();
+        if (!canBeBoosted.getOrDefault(minecartId, false)) return;
 
-    MinecartTNT minecart = new MinecartTNT(level, x, y, z);
+        Vector direction = player.getLocation().getDirection().add(new Vector(0, 0.3, 0)).normalize();
+        Vector velocity = direction.multiply(5);
 
-    minecart.setNoGravity(false);
+        MinecartTNT nmsMinecart = (MinecartTNT) ((CraftWorld) minecart.getWorld()).getHandle().getEntity(minecartId);
 
-    minecart.setDerailedVelocityMod(new Vector(config.getBoostMultiplier(), 1, config.getBoostMultiplier()));
-
-    minecart.setDeltaMovement(new Vec3(0, 0, 0));
-    minecart.hurtMarked = true;
-
-    level.addFreshEntity(minecart);
-
-    canBeBoosted.put(minecart.getUUID(), true);
-  }
-
-  @EventHandler
-  public void onMinecartPushed(VehicleEntityCollisionEvent event) {
-    Entity vehicle = event.getVehicle();
-    Entity entity = event.getEntity();
-
-    if (!(vehicle instanceof org.bukkit.entity.minecart.ExplosiveMinecart minecart)) return;
-    if (!(entity instanceof Player player)) return;
-
-    UUID minecartId = minecart.getUniqueId();
-    if (!canBeBoosted.getOrDefault(minecartId, false)) return;
-
-    Vector direction = player.getLocation().getDirection().add(new Vector(0, 0.3, 0)).normalize();
-    Vector velocity = direction.multiply(5);
-
-    MinecartTNT nmsMinecart = (MinecartTNT) ((CraftWorld) minecart.getWorld()).getHandle().getEntity(minecartId);
-
-    if (nmsMinecart != null) {
-      nmsMinecart.setDeltaMovement(new Vec3(velocity.getX(), velocity.getY(), velocity.getZ()));
-      canBeBoosted.put(minecartId, false);
+        if (nmsMinecart != null) {
+            nmsMinecart.setDeltaMovement(new Vec3(velocity.getX(), velocity.getY(), velocity.getZ()));
+            canBeBoosted.put(minecartId, false);
+        }
     }
-  }
 
 }

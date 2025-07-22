@@ -12,69 +12,69 @@ import java.util.Set;
 @Data
 public class Config {
 
-  private final JavaPlugin plugin;
+    private final JavaPlugin plugin;
 
-  private boolean debug;
+    private boolean debug;
 
-  private double hitboxInflateX;
-  private double hitboxInflateY;
-  private double hitboxInflateZ;
+    private double hitboxInflateX;
+    private double hitboxInflateY;
+    private double hitboxInflateZ;
 
-  private boolean disableFireworkUse;
-  private boolean disableGlideInCobwebs;
-  private boolean disableFlyThroughCobwebs;
+    private boolean disableFireworkUse;
+    private boolean disableGlideInCobwebs;
+    private boolean disableFlyThroughCobwebs;
 
-  private boolean boostEnabled;
-  private double boostMultiplier;
-  private boolean requirePowered;
-  private Set<Material> validBoostRails;
+    private boolean boostEnabled;
+    private double boostMultiplier;
+    private boolean requirePowered;
+    private Set<Material> validBoostRails;
 
-  private boolean tntEnabled;
-  private float tntPower;
+    private boolean tntEnabled;
+    private float tntPower;
 
-  private boolean tntMinecartEnabled;
-  private float tntMinecartPower;
+    private boolean tntMinecartEnabled;
+    private float tntMinecartPower;
 
-  public Config(JavaPlugin plugin) {
-    this.plugin = plugin;
-    load();
-  }
-
-  public void load() {
-    plugin.saveDefaultConfig();
-    FileConfiguration config = plugin.getConfig();
-
-    debug = config.getBoolean("StickyWebs.debug", false);
-    hitboxInflateX = config.getDouble("StickyWebs.hitbox-inflate.X-axis", -0.22);
-    hitboxInflateY = config.getDouble("StickyWebs.hitbox-inflate.Y-axis", -0.2);
-    hitboxInflateZ = config.getDouble("StickyWebs.hitbox-inflate.Z-axis", -0.22);
-
-    disableFireworkUse = config.getBoolean("StickyWebs.cobwebs.disable-firework-use-in-webs", true);
-    disableGlideInCobwebs = config.getBoolean("StickyWebs.cobwebs.disable-glide-In-Webs", true);
-    disableFlyThroughCobwebs = config.getBoolean("StickyWebs.cobwebs.disable-fly-through-Webs", true);
-
-    boostEnabled = config.getBoolean("StickyWebs.explosives.tnt-minecart-boost.enabled");
-    boostMultiplier = config.getDouble("StickyWebs.explosives.tnt-minecart-boost.boost-multiplier", 10);
-    requirePowered = config.getBoolean("StickyWebs.explosives.tnt-minecart-boost.must-be-powered", true);
-
-    validBoostRails = new HashSet<>();
-    for (String name : config.getStringList("StickyWebs.explosives.tnt-minecart-boost.valid-rail-blocks")) {
-      try {
-        validBoostRails.add(Material.valueOf(name.toUpperCase()));
-      } catch (IllegalArgumentException e) {
-        StickyWebs.getInstance().getLogger().warning("[TntBoost] Invalid rail type in config: " + name);
-      }
+    public Config(JavaPlugin plugin) {
+        this.plugin = plugin;
+        load();
     }
 
-    tntEnabled = config.getBoolean("StickyWebs.explosives.tnt.enabled", true);
-    tntPower = (float) config.getDouble("StickyWebs.explosives.tnt.explosion-power", 3.0);
+    public void load() {
+        plugin.saveDefaultConfig();
+        FileConfiguration config = plugin.getConfig();
 
-    tntMinecartEnabled = config.getBoolean("StickyWebs.explosives.tnt-minecart.enabled", true);
-    tntMinecartPower = (float) config.getDouble("StickyWebs.explosives.tnt-minecart.explosion-power", 5.0);
-  }
+        debug = config.getBoolean("StickyWebs.debug", false);
+        hitboxInflateX = config.getDouble("StickyWebs.hitbox-inflate.X-axis", -0.22);
+        hitboxInflateY = config.getDouble("StickyWebs.hitbox-inflate.Y-axis", -0.2);
+        hitboxInflateZ = config.getDouble("StickyWebs.hitbox-inflate.Z-axis", -0.22);
 
-  public void reload() {
-    plugin.reloadConfig();
-    load();
-  }
+        disableFireworkUse = config.getBoolean("StickyWebs.cobwebs.disable-firework-use-in-webs", true);
+        disableGlideInCobwebs = config.getBoolean("StickyWebs.cobwebs.disable-glide-In-Webs", true);
+        disableFlyThroughCobwebs = config.getBoolean("StickyWebs.cobwebs.disable-fly-through-Webs", true);
+
+        boostEnabled = config.getBoolean("StickyWebs.explosives.tnt-minecart-boost.enabled");
+        boostMultiplier = config.getDouble("StickyWebs.explosives.tnt-minecart-boost.boost-multiplier", 10);
+        requirePowered = config.getBoolean("StickyWebs.explosives.tnt-minecart-boost.must-be-powered", true);
+
+        validBoostRails = new HashSet<>();
+        for (String name : config.getStringList("StickyWebs.explosives.tnt-minecart-boost.valid-rail-blocks")) {
+            try {
+                validBoostRails.add(Material.valueOf(name.toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                StickyWebs.getInstance().getLogger().warning("[TntBoost] Invalid rail type in config: " + name);
+            }
+        }
+
+        tntEnabled = config.getBoolean("StickyWebs.explosives.tnt.enabled", true);
+        tntPower = (float) config.getDouble("StickyWebs.explosives.tnt.explosion-power", 3.0);
+
+        tntMinecartEnabled = config.getBoolean("StickyWebs.explosives.tnt-minecart.enabled", true);
+        tntMinecartPower = (float) config.getDouble("StickyWebs.explosives.tnt-minecart.explosion-power", 5.0);
+    }
+
+    public void reload() {
+        plugin.reloadConfig();
+        load();
+    }
 }

@@ -22,73 +22,73 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MovementListener implements Listener {
 
-  private final Set<UUID> recentlyDamaged = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private final Set<UUID> recentlyDamaged = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
-  @EventHandler
-  public void onPlayerMove(PlayerMoveEvent event) {
-    if (!StickyWebs.getInstance().getStickyWebsConfig().isDisableFlyThroughCobwebs()) return;
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        if (!StickyWebs.getInstance().getStickyWebsConfig().isDisableFlyThroughCobwebs()) return;
 
-    Player player = event.getPlayer();
-    if (recentlyDamaged.contains(player.getUniqueId())) return;
+        Player player = event.getPlayer();
+        if (recentlyDamaged.contains(player.getUniqueId())) return;
 
-    if (
-      PlayerUtil.isVanished(player) ||
-        player.getGameMode() == GameMode.CREATIVE ||
-        player.getGameMode() == GameMode.SPECTATOR
-    ) {
-      return;
+        if (
+                PlayerUtil.isVanished(player) ||
+                        player.getGameMode() == GameMode.CREATIVE ||
+                        player.getGameMode() == GameMode.SPECTATOR
+        ) {
+            return;
+        }
+
+        Location from = event.getFrom();
+        Location to = event.getTo();
+
+        ServerPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
+        if (!CobWebUtil.isPlayerInCobweb(nmsPlayer)) return;
+
+        boolean isBedrock = PlayerUtil.isBedrock(player);
+        boolean isGliding = player.isGliding();
+
+        double dx = to.getX() - from.getX();
+        double dy = to.getY() - from.getY();
+        double dz = to.getZ() - from.getZ();
+
+        double speed = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+        if (StickyWebs.getInstance().getStickyWebsConfig().isDebug()) {
+            CSend.log(player.getName() + " speed=" + speed + " dy=" + dy + " pitch=" + player.getLocation().getPitch() + " isBedrock=" + isBedrock + " isGliding=" + isGliding);
+        }
+
+        if (isGliding) player.setGliding(false);
+
+        if (isBedrock) {
+            if (speed > 0.05 && player.getLocation().getPitch() < -70) {
+                teleportBack(player, from, to);
+            }
+        }
+
+        if (from.distance(to) > 0.10) {
+            teleportBack(player, from, to);
+            player.sendActionBar("§cYou can't move through cobwebs!");
+        }
     }
 
-    Location from = event.getFrom();
-    Location to = event.getTo();
+    @EventHandler
+    public void onPlayerHit(EntityDamageByEntityEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            if (CobWebUtil.isPlayerInCobweb(((CraftPlayer) player).getHandle())) {
+                recentlyDamaged.add(player.getUniqueId());
 
-    ServerPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
-    if (!CobWebUtil.isPlayerInCobweb(nmsPlayer)) return;
-
-    boolean isBedrock = PlayerUtil.isBedrock(player);
-    boolean isGliding = player.isGliding();
-
-    double dx = to.getX() - from.getX();
-    double dy = to.getY() - from.getY();
-    double dz = to.getZ() - from.getZ();
-
-    double speed = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-    if (StickyWebs.getInstance().getStickyWebsConfig().isDebug()) {
-      CSend.log(player.getName() + " speed=" + speed + " dy=" + dy + " pitch=" + player.getLocation().getPitch() + " isBedrock=" + isBedrock + " isGliding=" + isGliding);
+                Bukkit.getScheduler().runTaskLater(StickyWebs.getInstance(), () -> {
+                    recentlyDamaged.remove(player.getUniqueId());
+                }, 5L);
+            }
+        }
     }
 
-    if (isGliding) player.setGliding(false);
-
-    if (isBedrock) {
-      if (speed > 0.05 && player.getLocation().getPitch() < -70) {
-        teleportBack(player, from, to);
-      }
+    private void teleportBack(Player player, Location from, Location to) {
+        Location teleportLocation = from.clone();
+        teleportLocation.setYaw(to.getYaw());
+        teleportLocation.setPitch(to.getPitch());
+        player.teleport(teleportLocation);
     }
-
-    if (from.distance(to) > 0.10) {
-      teleportBack(player, from, to);
-      player.sendActionBar("§cYou can't move through cobwebs!");
-    }
-  }
-
-  @EventHandler
-  public void onPlayerHit(EntityDamageByEntityEvent event) {
-    if (event.getEntity() instanceof Player player) {
-      if (CobWebUtil.isPlayerInCobweb(((CraftPlayer) player).getHandle())) {
-        recentlyDamaged.add(player.getUniqueId());
-
-        Bukkit.getScheduler().runTaskLater(StickyWebs.getInstance(), () -> {
-          recentlyDamaged.remove(player.getUniqueId());
-        }, 5L);
-      }
-    }
-  }
-
-  private void teleportBack(Player player, Location from, Location to) {
-    Location teleportLocation = from.clone();
-    teleportLocation.setYaw(to.getYaw());
-    teleportLocation.setPitch(to.getPitch());
-    player.teleport(teleportLocation);
-  }
 }

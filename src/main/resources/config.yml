@@ -1,6 +1,14 @@
 StickyWebs:
-
   debug: false
+
+  block-reset:
+    # Enable automatic block removal
+    enabled: true
+    # Time (in seconds) after a placed block is removed
+    delay-seconds: 3
+    # List of materials affected (leave empty to apply to all)
+    blocks:
+      - DIRT
 
   hitbox-inflate:
     # Horizontal hitbox shrink (X-axis)

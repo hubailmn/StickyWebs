@@ -12,20 +12,20 @@ import org.bukkit.event.entity.EntityToggleGlideEvent;
 
 public class GlideListener implements Listener {
 
-  @EventHandler
-  public void onGlide(EntityToggleGlideEvent event) {
-    if (!StickyWebs.getInstance().getStickyWebsConfig().isDisableGlideInCobwebs()) return;
+    @EventHandler
+    public void onGlide(EntityToggleGlideEvent event) {
+        if (!StickyWebs.getInstance().getStickyWebsConfig().isDisableGlideInCobwebs()) return;
 
-    if (!(event.getEntity() instanceof Player player)) return;
-    if (!event.isGliding()) return;
+        if (!(event.getEntity() instanceof Player player)) return;
+        if (!event.isGliding()) return;
 
-    ServerPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
-    if (CobWebUtil.isPlayerInCobweb(nmsPlayer)) {
-      event.setCancelled(true);
-      player.setGliding(false);
-      player.sendActionBar("§cYou can't glide inside cobwebs!");
-      SoundUtil.play(player, SoundUtil.SoundType.DENY);
+        ServerPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
+        if (CobWebUtil.isPlayerInCobweb(nmsPlayer)) {
+            event.setCancelled(true);
+            player.setGliding(false);
+            player.sendActionBar("§cYou can't glide inside cobwebs!");
+            SoundUtil.play(player, SoundUtil.SoundType.DENY);
+        }
     }
-  }
 
 }
