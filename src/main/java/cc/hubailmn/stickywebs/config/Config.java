@@ -19,6 +19,8 @@ public class Config {
     private boolean blockResetEnabled;
     private long blockResetDelay;
     private Set<Material> blockResetAllowedBlocks;
+    private int maxBatch;
+    private long taskIntervalTicks;
 
     private double hitboxInflateX;
     private double hitboxInflateY;
@@ -61,6 +63,9 @@ public class Config {
                 StickyWebs.getInstance().getLogger().warning("[BlockReset] Invalid block type in config: " + name);
             }
         }
+
+        maxBatch = config.getInt("StickyWebs.block-reset.max-batch-size", 100);
+        taskIntervalTicks = config.getLong("StickyWebs.block-reset.task-interval-ticks", 5L);
 
         hitboxInflateX = config.getDouble("StickyWebs.hitbox-inflate.X-axis", -0.22);
         hitboxInflateY = config.getDouble("StickyWebs.hitbox-inflate.Y-axis", -0.2);

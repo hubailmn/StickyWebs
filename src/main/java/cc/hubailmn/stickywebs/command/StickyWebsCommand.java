@@ -1,6 +1,7 @@
 package cc.hubailmn.stickywebs.command;
 
 import cc.hubailmn.stickywebs.StickyWebs;
+import cc.hubailmn.stickywebs.config.Config;
 import cc.hubailmn.utility.command.TabComplete;
 import cc.hubailmn.utility.interaction.SoundUtil;
 import org.bukkit.command.Command;
@@ -30,14 +31,16 @@ public class StickyWebsCommand implements TabExecutor {
                     return true;
                 }
 
-                StickyWebs.getInstance().reloadConfig();
-                StickyWebs.getInstance().getStickyWebsConfig().reload();
-                sender.sendMessage("§eStickyWebs configuration has been reloaded successfully.");
+                StickyWebs plugin = StickyWebs.getInstance();
 
+                plugin.reloadConfig();
+                plugin.setStickyWebsConfig(new Config(plugin));
+                plugin.getBlockResetManager().resetConfig();
+
+                sender.sendMessage("§eStickyWebs configuration has been reloaded successfully.");
                 if (sender instanceof Player player) {
                     SoundUtil.play(player, SoundUtil.SoundType.CONFIRM);
                 }
-
             }
 
             case "bypass" -> {

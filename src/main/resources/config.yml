@@ -6,11 +6,17 @@ StickyWebs:
     enabled: true
     # Time (in seconds) after a placed block is removed
     delay-seconds: 180
+
     # List of materials affected (leave empty to apply to all)
     blocks:
       - COBWEB
       - OAK_STAIRS
       - OAK_BUTTON
+
+    # Maximum number of blocks to reset per task run (batch size)
+    max-batch-size: 100
+    # Task run interval in ticks (20 ticks = 1 second)
+    task-interval-ticks: 5
 
   hitbox-inflate:
     # Horizontal hitbox shrink (X-axis)

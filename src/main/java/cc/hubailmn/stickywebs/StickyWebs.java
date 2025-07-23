@@ -11,11 +11,13 @@ import cc.hubailmn.stickywebs.lisener.minecart.TntMinecartBoostListener;
 import cc.hubailmn.stickywebs.util.BlockResetManager;
 import cc.hubailmn.utility.interaction.CSend;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
+@Setter
 public class StickyWebs extends JavaPlugin implements Listener {
 
     @Getter
@@ -33,7 +35,7 @@ public class StickyWebs extends JavaPlugin implements Listener {
 
         CSend.init(getDataFolder());
         this.stickyWebsConfig = new Config(this);
-        this.blockResetManager = new BlockResetManager();
+        this.blockResetManager = new BlockResetManager(getInstance());
 
         Bukkit.getPluginManager().registerEvents(new ExplosionListener(), this);
         Bukkit.getPluginManager().registerEvents(new FireworkListener(), this);
