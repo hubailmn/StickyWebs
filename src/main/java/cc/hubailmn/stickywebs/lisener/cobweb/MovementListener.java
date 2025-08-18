@@ -6,7 +6,6 @@ import cc.hubailmn.utility.interaction.CSend;
 import cc.hubailmn.utility.interaction.player.PlayerUtil;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -30,14 +29,6 @@ public class MovementListener implements Listener {
 
         Player player = event.getPlayer();
         if (recentlyDamaged.contains(player.getUniqueId())) return;
-
-        if (
-                PlayerUtil.isVanished(player) ||
-                        player.getGameMode() == GameMode.CREATIVE ||
-                        player.getGameMode() == GameMode.SPECTATOR
-        ) {
-            return;
-        }
 
         Location from = event.getFrom();
         Location to = event.getTo();
