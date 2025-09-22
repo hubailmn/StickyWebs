@@ -2,12 +2,13 @@ package cc.hubailmn.stickywebs;
 
 import cc.hubailmn.stickywebs.command.StickyWebsCommand;
 import cc.hubailmn.stickywebs.config.Config;
-import cc.hubailmn.stickywebs.lisener.blockreset.BlockPlacedListener;
-import cc.hubailmn.stickywebs.lisener.cobweb.FireworkListener;
-import cc.hubailmn.stickywebs.lisener.cobweb.GlideListener;
-import cc.hubailmn.stickywebs.lisener.cobweb.MovementListener;
-import cc.hubailmn.stickywebs.lisener.minecart.ExplosionListener;
-import cc.hubailmn.stickywebs.lisener.minecart.TntMinecartBoostListener;
+import cc.hubailmn.stickywebs.listener.blockreset.BlockPlacedListener;
+import cc.hubailmn.stickywebs.listener.cobweb.FireworkListener;
+import cc.hubailmn.stickywebs.listener.cobweb.GlideListener;
+import cc.hubailmn.stickywebs.listener.cobweb.MovementListener;
+import cc.hubailmn.stickywebs.listener.minecart.ExplosionListener;
+import cc.hubailmn.stickywebs.listener.minecart.TntMinecartBoostListener;
+import cc.hubailmn.stickywebs.listener.BlockProtectionListener;
 import cc.hubailmn.stickywebs.util.BlockResetManager;
 import cc.hubailmn.utility.interaction.CSend;
 import lombok.Getter;
@@ -38,6 +39,7 @@ public class StickyWebs extends JavaPlugin implements Listener {
         this.blockResetManager = new BlockResetManager(getInstance());
 
         Bukkit.getPluginManager().registerEvents(new ExplosionListener(), this);
+        Bukkit.getPluginManager().registerEvents(new BlockProtectionListener(), this);
         Bukkit.getPluginManager().registerEvents(new FireworkListener(), this);
         Bukkit.getPluginManager().registerEvents(new GlideListener(), this);
         Bukkit.getPluginManager().registerEvents(new MovementListener(), this);

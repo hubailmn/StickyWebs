@@ -1,4 +1,4 @@
-package cc.hubailmn.stickywebs.lisener.minecart;
+package cc.hubailmn.stickywebs.listener.minecart;
 
 import cc.hubailmn.stickywebs.StickyWebs;
 import net.minecraft.server.level.ServerLevel;

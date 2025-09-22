@@ -1,4 +1,4 @@
-package cc.hubailmn.stickywebs.lisener.blockreset;
+package cc.hubailmn.stickywebs.listener.blockreset;
 
 import cc.hubailmn.stickywebs.StickyWebs;
 import org.bukkit.Material;
