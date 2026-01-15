@@ -2,15 +2,14 @@ package cc.hubailmn.stickywebs;
 
 import cc.hubailmn.stickywebs.command.StickyWebsCommand;
 import cc.hubailmn.stickywebs.config.Config;
+import cc.hubailmn.stickywebs.listener.BlockProtectionListener;
 import cc.hubailmn.stickywebs.listener.blockreset.BlockPlacedListener;
 import cc.hubailmn.stickywebs.listener.cobweb.FireworkListener;
 import cc.hubailmn.stickywebs.listener.cobweb.GlideListener;
 import cc.hubailmn.stickywebs.listener.cobweb.MovementListener;
 import cc.hubailmn.stickywebs.listener.minecart.ExplosionListener;
 import cc.hubailmn.stickywebs.listener.minecart.TntMinecartBoostListener;
-import cc.hubailmn.stickywebs.listener.BlockProtectionListener;
 import cc.hubailmn.stickywebs.util.BlockResetManager;
-import cc.hubailmn.utility.interaction.CSend;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -34,7 +33,6 @@ public class StickyWebs extends JavaPlugin implements Listener {
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
 
-        CSend.init(getDataFolder());
         this.stickyWebsConfig = new Config(this);
         this.blockResetManager = new BlockResetManager(getInstance());
 
@@ -52,14 +50,15 @@ public class StickyWebs extends JavaPlugin implements Listener {
             reloadCommand.setExecutor(new StickyWebsCommand());
         }
 
-        CSend.prefixed("§ePlugin §aStickyWebs§e has been §aenabled§e successfully!");
-        CSend.prefixed("§eNeed help or want to join the community?");
-        CSend.prefixed("§eJoin the Discord: §dhttps://discord.hubailmn.cc");
+        
+        getServer().getConsoleSender().sendMessage("§ePlugin §aStickyWebs§e has been §aenabled§e successfully!");
+        getServer().getConsoleSender().sendMessage("§eNeed help or want to join the community?");
+        getServer().getConsoleSender().sendMessage("§eJoin the Discord: §dhttps://discord.hubailmn.cc");
     }
 
     @Override
     public void onDisable() {
-        CSend.prefixed("§ePlugin §aStickyWebs§e has been §cdisabled§e successfully!");
+        getServer().getConsoleSender().sendMessage("§ePlugin §aStickyWebs§e has been §cdisabled§e successfully!");
     }
 
 }

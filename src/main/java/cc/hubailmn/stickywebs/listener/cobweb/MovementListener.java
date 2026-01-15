@@ -2,10 +2,10 @@ package cc.hubailmn.stickywebs.listener.cobweb;
 
 import cc.hubailmn.stickywebs.StickyWebs;
 import cc.hubailmn.stickywebs.util.CobWebUtil;
-import cc.hubailmn.utility.interaction.CSend;
 import cc.hubailmn.utility.interaction.player.PlayerUtil;
 import net.minecraft.server.level.ServerPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -45,14 +45,10 @@ public class MovementListener implements Listener {
 
         double speed = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-        if (StickyWebs.getInstance().getStickyWebsConfig().isDebug()) {
-            CSend.log(player.getName() + " speed=" + speed + " dy=" + dy + " pitch=" + player.getLocation().getPitch() + " isBedrock=" + isBedrock + " isGliding=" + isGliding);
-        }
-
         if (isGliding) player.setGliding(false);
 
         if (isBedrock) {
-            if (speed > 0.05 && player.getLocation().getPitch() < -70) {
+            if (speed > 0.05 && (player.getLocation().getPitch() < -70 || player.getLocation().getPitch() > 70)) {
                 teleportBack(player, from, to);
             }
         }
@@ -71,7 +67,7 @@ public class MovementListener implements Listener {
 
                 Bukkit.getScheduler().runTaskLater(StickyWebs.getInstance(), () -> {
                     recentlyDamaged.remove(player.getUniqueId());
-                }, 5L);
+                }, 2L);
             }
         }
     }
